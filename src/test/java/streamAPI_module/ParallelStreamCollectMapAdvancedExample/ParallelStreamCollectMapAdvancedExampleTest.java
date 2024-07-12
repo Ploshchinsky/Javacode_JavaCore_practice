@@ -33,19 +33,21 @@ public class ParallelStreamCollectMapAdvancedExampleTest {
                                 Map.Entry::getKey, Collectors.averagingInt(Map.Entry::getValue))
                         );
 
-        System.out.println("Average Grades for All Students:\n" + actual);
+        System.out.println("\n=Main test=");
+        System.out.println("Average Grade For All Students\n" + actual);
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void extraTest() {
         //Сортировка студентов в порядке убывания среднего балла
-        students.stream().sorted((o1, o2) -> {
+        List<Student> studentAvgSorted = students.stream().sorted((o1, o2) -> {
             double avgO1 = (double) o1.getGrades().values().stream().reduce(Integer::sum).get() / o1.getGrades().values().size();
             double avgO2 = (double) o2.getGrades().values().stream().reduce(Integer::sum).get() / o2.getGrades().values().size();
             return (int) (avgO2 - avgO1);
-        }).forEach(student -> System.out.println(student.getGrades()));
+        }).toList();
 
+        System.out.println("\n=Extra test=");
         System.out.println("---");
         System.out.println("Top Student:");
         Optional<Student> topStudent = students.stream().max(
