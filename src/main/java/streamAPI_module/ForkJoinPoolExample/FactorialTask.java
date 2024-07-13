@@ -1,6 +1,7 @@
 package streamAPI_module.ForkJoinPoolExample;
 
 import java.util.concurrent.RecursiveTask;
+import java.util.stream.LongStream;
 
 public class FactorialTask extends RecursiveTask<Long> {
     private long factorial = 1l;
@@ -25,5 +26,11 @@ public class FactorialTask extends RecursiveTask<Long> {
         }
         long temp = factorial_classic(i - 1) * i;
         return temp;
+    }
+
+    public long factorial_stream(int i) {
+        return LongStream.rangeClosed(1, i)
+                .parallel()
+                .reduce(1, (long a, long b) -> a * b);
     }
 }
