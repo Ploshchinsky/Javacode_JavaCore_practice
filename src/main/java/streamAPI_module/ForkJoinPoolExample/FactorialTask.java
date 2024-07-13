@@ -1,13 +1,12 @@
 package streamAPI_module.ForkJoinPoolExample;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RecursiveTask;
 
 public class FactorialTask extends RecursiveTask<Long> {
-    private long factorial;
+    private long factorial = 1l;
 
-    public FactorialTask(long startPoint) {
-        this.factorial = startPoint;
+    public FactorialTask(long factorial) {
+        this.factorial = factorial;
     }
 
     @Override
@@ -15,9 +14,9 @@ public class FactorialTask extends RecursiveTask<Long> {
         if (factorial == 1) {
             return 1l;
         }
-        FactorialTask task = new FactorialTask(factorial - 1);
-        task.fork();
-        return task.join() * factorial;
+        FactorialTask subTask = new FactorialTask(factorial - 1);
+        subTask.fork();
+        return factorial * subTask.join();
     }
 
     public long factorial_classic(int i) {
